@@ -30,6 +30,7 @@ export function getConfig() {
   const generation = {
     soapMaxTokens: Number(process.env.SOAP_MAX_TOKENS || 900),
     dapMaxTokens: Number(process.env.DAP_MAX_TOKENS || 900),
+    narrativeMaxTokens: Number(process.env.NARRATIVE_MAX_TOKENS || 900),
     plainMaxTokens: Number(process.env.PLAIN_MAX_TOKENS || 500)
   };
 

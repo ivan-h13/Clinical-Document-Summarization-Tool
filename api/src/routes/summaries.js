@@ -1,8 +1,8 @@
 
 import { getConfig } from "../config.js";
 import { makeLLMProvider } from "../providers/index.js";
-import { SOAP_JSON_SYSTEM_PROMPT, DAP_JSON_SYSTEM_PROMPT, PLAIN_SYSTEM_PROMPT } from "../prompts/system.js";
-import { SummariesRequestSchema, SoapSummarySchema, DapSummarySchema } from "../schemas/summaries.schema.js";
+import { SOAP_JSON_SYSTEM_PROMPT, DAP_JSON_SYSTEM_PROMPT, NARRATIVE_SYSTEM_PROMPT, PLAIN_SYSTEM_PROMPT } from "../prompts/system.js";
+import { SummariesRequestSchema, SoapSummarySchema, DapSummarySchema, NarrativeSummarySchema } from "../schemas/summaries.schema.js";
 
 const config = getConfig();
 const llm = makeLLMProvider(config);
@@ -18,6 +18,11 @@ const SUMMARY_FORMATS = {
     prompt: DAP_JSON_SYSTEM_PROMPT,
     schema: DapSummarySchema,
     maxTokens: config.generation.dapMaxTokens ?? config.generation.soapMaxTokens
+  },
+  narrative: {
+    prompt: NARRATIVE_SYSTEM_PROMPT,
+    schema: NarrativeSummarySchema,
+    maxTokens: config.generation.narrativeMaxTokens ?? config.generation.soapMaxTokens
   }
 };
 
@@ -58,7 +63,7 @@ export async function summariesRoutes(app) {
     }
 
     const { tenantId: tenantIdFromBody, note, options } = parsed.data;
-    const format = options?.format ?? "soap"; //soap, dap, or additional formats in the future
+    const format = options?.format ?? "soap";
     const selectedFormat = SUMMARY_FORMATS[format];
 
 

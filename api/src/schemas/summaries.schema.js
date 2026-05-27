@@ -10,7 +10,7 @@ export const SummariesRequestSchema = z.object({
   }),
   options: z
     .object({
-      format: z.enum(["soap", "dap"]).default("soap"),
+      format: z.enum(["soap", "dap", "narrative"]).default("soap"),
       plainLanguage: z.boolean().default(true),
       temperature: z.number().min(0).max(1).optional()
     })
@@ -28,4 +28,8 @@ export const DapSummarySchema = z.object({
   data: z.string(),
   assessment: z.string(),
   plan: z.array(z.string())
+});
+
+export const NarrativeSummarySchema = z.object({
+  narrative: z.string()
 });
